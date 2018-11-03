@@ -85,7 +85,11 @@ public class HttpUrlRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        delegate.getResponse(s);
+        try {
+            delegate.getResponse(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.e("Response", "" + s);
 
     }
