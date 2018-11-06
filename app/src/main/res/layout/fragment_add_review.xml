@@ -26,6 +26,15 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
 
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rate_me"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="1.0" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
