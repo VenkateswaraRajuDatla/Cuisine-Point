@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -18,6 +19,7 @@ public class AddReviewFragment extends DialogFragment {
 
     EditText reviewText;
     Button submitButton, cancelButton;
+    RatingBar ratingBar;
 
     public static AddReviewFragment newInstance() {
         return new AddReviewFragment();
@@ -41,25 +43,26 @@ public class AddReviewFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_add_review, container, false);
 
         reviewText   = view.findViewById(R.id.reviewText);
+        ratingBar    = view.findViewById(R.id.ratingBar);
         submitButton = view.findViewById(R.id.submitButton);
         cancelButton = view.findViewById(R.id.cancelButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Date date = new Date();
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDate = dateFormat.format(date);
 
                 //TODO: Set the current restaurant's id for 'request[3]' below
-                String request[] = new String[6];
+                String request[] = new String[7];
                 request[0] = "http://cuisine-point-mysql.herokuapp.com/reviews/add";
                 request[1] = "POST";
                 request[2] = "review";
-                request[3] = "1";
+                request[3] = "71";
                 request[4] = reviewText.getText().toString();
-                request[5] = currentDate;
+                request[5] = "" + ratingBar.getRating();
+                request[6] = currentDate;
 
                 HttpUrlRequest httpUrlRequest = new HttpUrlRequest();
                 httpUrlRequest.execute(request);

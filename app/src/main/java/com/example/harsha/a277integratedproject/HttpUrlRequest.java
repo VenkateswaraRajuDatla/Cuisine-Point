@@ -17,7 +17,7 @@ import java.net.URL;
 
 public class HttpUrlRequest extends AsyncTask<String, Void, String> {
 
-    String server_response="test";
+    String server_response = "test";
     HttpResponse delegate = null;
 
     @Override
@@ -45,20 +45,19 @@ public class HttpUrlRequest extends AsyncTask<String, Void, String> {
                         body.put("password", strings[6]);
                         body.put("phoneNumber", strings[7]);
                         body.put("isAdmin", strings[8]);
-                    } else if (requestTable.equals("restaurant")){
+                    } else if (requestTable.equals("restaurant")) {
                         body.put("name", strings[3]);
                         body.put("username", strings[4]);
                         body.put("address", strings[5]);
                         body.put("city", strings[6]);
                         body.put("cuisine", strings[7]);
                         body.put("phoneNumber", strings[8]);
-
                     } else if (requestTable.equals("review")) {
                         body.put("restaurantId", strings[3]);
-                        body.put("reviewText", strings[4]);
-                        body.put("reviewDate", strings[5]);
-                    }
-                    else if (requestTable.equals("getByCuisine")) {
+                        body.put("text", strings[4]);
+                        body.put("rating", strings[5]);
+                        body.put("date", strings[6]);
+                    } else if (requestTable.equals("getByCuisine")) {
                         body.put("cuisine", strings[3]);
                     }
 
@@ -72,9 +71,9 @@ public class HttpUrlRequest extends AsyncTask<String, Void, String> {
                 }
             }
 
-                urlConnection.connect();
-                server_response = readStream(urlConnection.getInputStream());
-                Log.v("CatalogClient", server_response);
+            urlConnection.connect();
+            server_response = readStream(urlConnection.getInputStream());
+            Log.v("CatalogClient", server_response);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,7 +85,8 @@ public class HttpUrlRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         try {
-            delegate.getResponse(s);
+            if (delegate != null)
+                delegate.getResponse(s);
         } catch (JSONException e) {
             e.printStackTrace();
         }
