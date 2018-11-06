@@ -1,6 +1,7 @@
 package com.example.harsha.a277integratedproject;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -37,7 +38,8 @@ import java.util.List;
 
 public class GoogleRecommendations extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,
+        JsonListResponse{
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -159,8 +161,13 @@ public class GoogleRecommendations extends AppCompatActivity implements OnMapRea
 
     public void onList(View v)
     {
-        //Intent i =new Intent(GoogleRecommendations.this,ScrollingActivity.class);
-        //startActivity(i);
+        String req[]=new String[1];
+        GetRestList getRestList = new GetRestList();
+        String url =getUrl(latitide,longitude,"restaurant");
+        req[0]=url;
+        getRestList.delegate=GoogleRecommendations.this;
+        getRestList.execute(req);
+        Toast.makeText(this,"Getting the Restaurants list",Toast.LENGTH_SHORT).show();
     }
 
     public void getRest(View v)
@@ -205,7 +212,7 @@ public class GoogleRecommendations extends AppCompatActivity implements OnMapRea
         LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("GoogleRecommendations Current Location");
+        markerOptions.title("User Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currentUserLocationMarker = mMap.addMarker(markerOptions);
          mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -237,6 +244,17 @@ public class GoogleRecommendations extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void processFinish(String response) {
+        Intent intent = new Intent(this, HotelList.class);
+
+        intent.putExtra("EXTRA_MESS", response);
+        Log.i("tag","Response in processFinish which is passing to Hotellist activity: "+response);
+        startActivity(intent);
+        finish();
 
     }
 }

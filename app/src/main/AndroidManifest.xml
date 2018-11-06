@@ -27,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".HotelList" />
         <activity android:name=".SignUp" />
         <activity android:name=".Admin" />
         <activity android:name=".GoogleRecommendations" />
