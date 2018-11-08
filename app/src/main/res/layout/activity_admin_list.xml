@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wallpaper"
     tools:context=".AdminListActivity">
 
     <TextView
@@ -14,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="107dp"
         android:layout_marginTop="70dp"
-        android:text="Hotels List" />
+         />
 
     <ListView
         android:id="@+id/list"
