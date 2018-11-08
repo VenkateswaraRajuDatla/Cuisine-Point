@@ -61,12 +61,12 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
 
 
     Button btnStartUpdates;
-    HttpUrlRequest httpUrlRequest=new HttpUrlRequest();
+    HttpUrlRequest httpUrlRequest = new HttpUrlRequest();
 
 
     // location last updated time
     private String mLastUpdateTime;
-    private String latitude="";
+    private String latitude = "";
     // location updates interval - 10sec
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
 
@@ -95,7 +95,7 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in_user);
         ButterKnife.bind(this);
-        showSuggestion       = findViewById(R.id.Bsugrest);
+        showSuggestion = findViewById(R.id.Bsugrest);
         // initialize the necessary libraries
         init();
 
@@ -119,15 +119,16 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
 
 
     }
-    public void sendRequest(String ...request) {
+
+    public void sendRequest(String... request) {
         httpUrlRequest = new HttpUrlRequest();
         httpUrlRequest.delegate = LoggedInUser.this;
         httpUrlRequest.execute(request);
 
     }
 
-    public void onclickshow(View v){
-        Intent i=new Intent(LoggedInUser.this,GoogleRecommendations.class);
+    public void onclickshow(View v) {
+        Intent i = new Intent(LoggedInUser.this, GoogleRecommendations.class);
         startActivity(i);
     }
 
@@ -197,7 +198,6 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
     }
 
 
-
     /**
      * Starting location updates
      * Check whether location settings are satisfied and then
@@ -250,6 +250,7 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
                     }
                 });
     }
+
     public void startLocationButtonClick() {
         // Requesting ACCESS_FINE_LOCATION using Dexter library
         Dexter.withActivity(this)
@@ -278,7 +279,6 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
     }
 
 
-
     private void openSettings() {
         Intent intent = new Intent();
         intent.setAction(
@@ -289,7 +289,6 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
 
 
     private boolean checkPermissions() {
@@ -305,44 +304,42 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
         if (mCurrentLocation != null) {
             Toast.makeText(getApplicationContext(), "Lat: " + mCurrentLocation.getLatitude()
                     + ", Lng: " + mCurrentLocation.getLongitude(), Toast.LENGTH_LONG).show();
-            latitude= Double.toString(mCurrentLocation.getLatitude());
+            latitude = Double.toString(mCurrentLocation.getLatitude());
 //            Toast.makeText(getApplicationContext(), "Lat: " + latitude
 //                    , Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "Last known location is not available!", Toast.LENGTH_SHORT).show();
         }
-        ArrayList<HashMap<String, String>> restarauntList=new ArrayList<>();
+        ArrayList<HashMap<String, String>> restarauntList = new ArrayList<>();
 
         JSONObject jsonObj = new JSONObject(response);
 
         // Getting JSON Array node
         JSONArray restaraunts = jsonObj.getJSONArray("result");
-        for (int i = 0; i < restaraunts.length(); i++)
-        {
+        for (int i = 0; i < restaraunts.length(); i++) {
             HashMap<String, String> map = new HashMap<String, String>();
             JSONObject e = restaraunts.getJSONObject(i);
 
+            map.put("id", e.getString("id"));
             map.put("name", "Restaraunt Name:" + e.getString("name"));
-            map.put("address", "Address: " +  e.getString("address"));
-            map.put("city", "City: " +  e.getString("city"));
+            map.put("address", "Address: " + e.getString("address"));
+            map.put("city", "City: " + e.getString("city"));
 
+            LatLng p2 = getLocationFromAddress(this, e.getString("address") + "," + e.getString("city"));
+            Location loc1 = new Location("");
+            loc1.setLatitude(mCurrentLocation.getLatitude());
+            loc1.setLongitude(mCurrentLocation.getLongitude());
 
-        LatLng p2 = getLocationFromAddress(this,e.getString("address")+","+e.getString("city"));
-        Location loc1 = new Location("");
-        loc1.setLatitude(mCurrentLocation.getLatitude());
-        loc1.setLongitude(mCurrentLocation.getLongitude());
+            Location loc2 = new Location("");
+            loc2.setLatitude(p2.latitude);
+            loc2.setLongitude(p2.longitude);
+            float distanceInKiloMeters = loc1.distanceTo(loc2) / 1000;
 
-        Location loc2 = new Location("");
-        loc2.setLatitude(p2.latitude);
-        loc2.setLongitude(p2.longitude);
-        float distanceInKiloMeters = loc1.distanceTo(loc2)/1000;
-
-            map.put("distance","Ditsance From current Lication in Kms:"+Float.toString(distanceInKiloMeters));
-            map.put("cuisine", "Cuisine: " +  e.getString("cuisine"));
-            map.put("phone_number", "Phone Number: " +  e.getString("phone_number"));
+            map.put("distance", "Ditsance From current Lication in Kms:" + Float.toString(distanceInKiloMeters));
+            map.put("cuisine", "Cuisine: " + e.getString("cuisine"));
+            map.put("phone_number", "Phone Number: " + e.getString("phone_number"));
             restarauntList.add(map);
         }
-
 
         //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, SuggestionListActivity.class);
@@ -351,6 +348,7 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
         startActivity(intent);
         finish();
     }
+
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
@@ -365,7 +363,7 @@ public class LoggedInUser extends AppCompatActivity implements HttpResponse {
             }
 
             Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (IOException ex) {
 

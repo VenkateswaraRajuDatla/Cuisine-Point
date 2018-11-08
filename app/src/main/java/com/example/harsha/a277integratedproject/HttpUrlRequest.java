@@ -59,6 +59,8 @@ public class HttpUrlRequest extends AsyncTask<String, Void, String> {
                         body.put("date", strings[6]);
                     } else if (requestTable.equals("getByCuisine")) {
                         body.put("cuisine", strings[3]);
+                    }else if (requestTable.equals("getReviewsById")) {
+                        body.put("restaurant_id", strings[3]);
                     }
 
                     writer.write(body.toString());

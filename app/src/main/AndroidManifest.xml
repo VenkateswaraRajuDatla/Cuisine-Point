@@ -34,6 +34,7 @@
         <activity android:name=".LoggedInUser" />
         <activity android:name=".AdminListActivity" />
         <activity android:name=".SuggestionListActivity" />
+        <activity android:name=".ReviewsListActivity" />
     </application>
 
 </manifest>

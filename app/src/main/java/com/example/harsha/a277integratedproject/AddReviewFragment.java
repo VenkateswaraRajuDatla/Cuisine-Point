@@ -20,6 +20,7 @@ public class AddReviewFragment extends DialogFragment {
     EditText reviewText;
     Button submitButton, cancelButton;
     RatingBar ratingBar;
+    String restaurantId;
 
     public static AddReviewFragment newInstance() {
         return new AddReviewFragment();
@@ -35,6 +36,14 @@ public class AddReviewFragment extends DialogFragment {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             d.getWindow().setLayout(width, height);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            restaurantId = getArguments().getString("restaurantId");
         }
     }
 
@@ -59,7 +68,7 @@ public class AddReviewFragment extends DialogFragment {
                 request[0] = "http://cuisine-point-mysql.herokuapp.com/reviews/add";
                 request[1] = "POST";
                 request[2] = "review";
-                request[3] = "71";
+                request[3] = restaurantId;
                 request[4] = reviewText.getText().toString();
                 request[5] = "" + ratingBar.getRating();
                 request[6] = currentDate;
