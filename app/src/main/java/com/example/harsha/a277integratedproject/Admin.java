@@ -25,7 +25,8 @@ public class Admin extends AppCompatActivity implements HttpResponse {
         addRestarauntButton       = findViewById(R.id.addHotel);
         editRestarauntButton = findViewById(R.id.updateHotel);
         showRestaurantsButton     = findViewById(R.id.allHotels);
-        getRecommendationsButton =findViewById(R.id.recommendations);
+
+
         httpUrlRequest.delegate = this;
 
         addRestarauntButton.setOnClickListener(new View.OnClickListener() {
@@ -75,18 +76,7 @@ public class Admin extends AppCompatActivity implements HttpResponse {
             }
         });
 
-        getRecommendationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                String request[] = new String[9];
-                request[0] = "http://cuisine-point-mysql.herokuapp.com/restaurants/cuisine";
-                request[1] = "POST";
-                request[2] = "getByCuisine";
-                request[3] = "american";
-                sendRequest(request);
-            }
-        });
     }
 
     public void sendRequest(String ...request) {
