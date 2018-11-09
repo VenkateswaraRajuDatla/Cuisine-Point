@@ -193,7 +193,7 @@ public class GoogleRecommendations extends AppCompatActivity implements OnMapRea
         googleURL.append("&radius=" + ProximityRadius);
         googleURL.append("&type=" + nearbyPlace);
         googleURL.append("&sensor=true");
-        googleURL.append("&key=" + "AIzaSyCHrQnFIjSAiWZdXp3xN7ViL30-U_pYvlU");
+        googleURL.append("&key=" + "add your key");
 
         Log.d("GoogleMapsActivity", "url = " + googleURL.toString());
 
